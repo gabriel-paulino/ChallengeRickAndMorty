@@ -1,5 +1,6 @@
-import { View, Text, Image, Button } from "react-native";
-import { useDispatch } from "react-redux";
+import { View, Text, Image, Button, Alert } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { favoriteStateData } from "../../store/modules/Favorite/reducer";
 import { ICharacter } from "../../types";
 import { addNewFavoritePerson } from "../../store/modules/Favorite/reducer";
 import styles from "./styles";
@@ -13,8 +14,13 @@ export interface ICardProps {
 
 export default function Card({ id, name, image, gender }: ICardProps) {
   const dispatch = useDispatch();
+  const favorites = useSelector(favoriteStateData);
 
   const handleFavorite = () => {
+    if (favorites.find((person) => person.id === id)) {
+      Alert.alert('Aviso',`O personagem ${name} já é um favorito!`);
+      return;
+    };
 
     let character = {
       id: id,

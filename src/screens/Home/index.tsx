@@ -5,14 +5,13 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  favoriteStateData,
-  removeFavoritePerson,
-} from "../../store/modules/Favorite/reducer";
+import { useSelector } from "react-redux";
+import { favoriteStateData } from "../../store/modules/Favorite/reducer";
 import Card from "../../components/Card";
+import FavoriteModal from "../../components/FavoriteModal";
 import { useQuery } from "@apollo/client";
 import INFO_PERSON from "../../queries";
 import styles from "../../components/Card/styles";
@@ -30,8 +29,6 @@ export default function Home() {
       <TouchableOpacity
         onPress={() => {
           setShowModal(!showModal);
-          console.log(favorites);
-          //Abrir modal com favoritos
         }}
       >
         <View style={styles.favoritesContainer}>
@@ -55,6 +52,9 @@ export default function Home() {
             />
           )}
         />
+      )}
+      {showModal && (
+        <FavoriteModal showModal={showModal} setShowModal={setShowModal} />
       )}
     </SafeAreaView>
   );
