@@ -7,16 +7,20 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  favoriteStateData,
+  removeFavoritePerson,
+} from "../../store/modules/Favorite/reducer";
 import Card from "../../components/Card";
-
 import { useQuery } from "@apollo/client";
 import INFO_PERSON from "../../queries";
 import styles from "../../components/Card/styles";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
-  const [count, setCount] = useState(0);
   const { loading, error, data } = useQuery(INFO_PERSON);
+  const favorites = useSelector(favoriteStateData);
 
   return (
     <SafeAreaView>
@@ -26,12 +30,12 @@ export default function Home() {
       <TouchableOpacity
         onPress={() => {
           setShowModal(!showModal);
-          setCount(count + 1);//TODO: Pegar o lenght do storage
+          console.log(favorites);
           //Abrir modal com favoritos
         }}
       >
         <View style={styles.favoritesContainer}>
-          <Text>{`(${count}) Favoritos`}</Text>
+          <Text>{`(${favorites?.length ?? 0}) Favoritos`}</Text>
           <View style={styles.starIconContainer}>
             <AntDesign name="star" size={24} color="#F0E68C" />
           </View>
